@@ -25,9 +25,11 @@ meson install -C build
 
 ```shell
 cd examples
-python python3-1GeV-particle-stripping.py
+python pyorbit3-1GeV-particle-stripping.py
+# or, assuming PyORBIT was built with MPI enabled:
+mpirun -np 2 python pyorbit3-1GeV-particle-stripping
 ```
-This will launch *1GeV-particle-stripping.py* example on two MPI nodes. Other laser stripping related examples are availabale in [Examples](https://github.com/PyORBIT-Collaboration/examples/tree/master/ext/LaserStripping) repository.
+This will launch *pyorbit3-1GeV-particle-stripping.py* example on two MPI nodes. Other laser stripping related examples are availabale in [Examples](https://github.com/PyORBIT-Collaboration/examples/tree/master/ext/LaserStripping) repository.
 
 ## 5. Uninstalling
 
