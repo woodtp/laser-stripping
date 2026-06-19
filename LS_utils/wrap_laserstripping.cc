@@ -1,4 +1,4 @@
-#include "orbit_mpi.hh"
+#include <pyorbit3/mpi/orbit_mpi.hh>
 
 #include "wrap_density_matrix.hh"
 #include "wrap_DM_noLaserField.hh"
@@ -26,39 +26,39 @@
 
 static PyMethodDef laserStrippingMethods[] = { {NULL,NULL} };
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+static struct PyModuleDef laserstrippingmodule = {
+  PyModuleDef_HEAD_INIT,
+  "laserstripping",
+  NULL,
+  -1,
+  laserStrippingMethods
+};
 
-  void initlaserstripping(){
-    //create new module
-    PyObject* module = Py_InitModule("laserstripping",laserStrippingMethods);
-		wrap_density_matrix::initDensityMatrix(module);
-		wrap_DM_noLaserField::initDM_noLaserField(module);
-		wrap_schrodinger_equation::initSchrodingerEquation(module);
-		wrap_regular_grid_fs::initRegularGridFS(module);
-		wrap_hermite_gaussian_lf_mode::initHermiteGaussianLFmode(module);
-		wrap_las_field_container::initLaserFieldContainer(module);
-		wrap_hydrogen_stark_param::initHydrogenStarkParam(module);
-		wrap_two_level_atom::initTwoLevelAtom(module);
-		wrap_two_level_strong_field::initTwoLevelStrongField(module);
-		wrap_froissart_stora_lf::initFroissartStoraLF(module);
-		wrap_quad_em_field::initQuadEMfield(module);
-		wrap_const_em_field::initConstEMfield(module);
-		wrap_print_ext_effects::initPrintExtEffects(module);
-		wrap_record_evolution::initRecordEvolution(module);
-		wrap_walls::initWalls(module);
-		wrap_fringe_field::initFringeField(module);
-		wrap_stark::initStark(module);
-		wrap_stark_strong_field::initStarkStrongField(module);
-		wrap_cone_lf_mode::initConeLFmode(module);
-		wrap_hminus_stripping::initHminusStripping(module);
-		wrap_continuum_ss::initContinuumSS(module);
-		wrap_tdm_continuum::initTDMcontinuum(module);
-                wrap_snsstrippingmagnet::initSNSstrippingMagnet(module);
-		
-  }
-	
-#ifdef __cplusplus
+PyMODINIT_FUNC PyInit_laserstripping(void) {
+  PyObject* module = PyModule_Create(&laserstrippingmodule);
+  if (!module) return NULL;
+  wrap_density_matrix::initDensityMatrix(module);
+  wrap_DM_noLaserField::initDM_noLaserField(module);
+  wrap_schrodinger_equation::initSchrodingerEquation(module);
+  wrap_regular_grid_fs::initRegularGridFS(module);
+  wrap_hermite_gaussian_lf_mode::initHermiteGaussianLFmode(module);
+  wrap_las_field_container::initLaserFieldContainer(module);
+  wrap_hydrogen_stark_param::initHydrogenStarkParam(module);
+  wrap_two_level_atom::initTwoLevelAtom(module);
+  wrap_two_level_strong_field::initTwoLevelStrongField(module);
+  wrap_froissart_stora_lf::initFroissartStoraLF(module);
+  wrap_quad_em_field::initQuadEMfield(module);
+  wrap_const_em_field::initConstEMfield(module);
+  wrap_print_ext_effects::initPrintExtEffects(module);
+  wrap_record_evolution::initRecordEvolution(module);
+  wrap_walls::initWalls(module);
+  wrap_fringe_field::initFringeField(module);
+  wrap_stark::initStark(module);
+  wrap_stark_strong_field::initStarkStrongField(module);
+  wrap_cone_lf_mode::initConeLFmode(module);
+  wrap_hminus_stripping::initHminusStripping(module);
+  wrap_continuum_ss::initContinuumSS(module);
+  wrap_tdm_continuum::initTDMcontinuum(module);
+  wrap_snsstrippingmagnet::initSNSstrippingMagnet(module);
+  return module;
 }
-#endif

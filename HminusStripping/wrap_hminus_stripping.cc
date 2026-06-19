@@ -1,7 +1,6 @@
-#include "orbit_mpi.hh"
-#include "pyORBIT_Object.hh"
+#include <pyorbit3/mpi/orbit_mpi.hh>
+#include <pyorbit3/main/pyORBIT_Object.hh>
 
-#include "wrap_utils.hh"
 #include "wrap_hminus_stripping.hh"
 
 #include <iostream>
@@ -39,31 +38,31 @@ extern "C" {
   //initializator for python  PyExternalEffects class
   //this is implementation of the __init__ method
   static int HminusStripping_init(pyORBIT_Object *self, PyObject *args, PyObject *kwds){
-	  
 
-	  
+
+
 	  PyObject*	pyStarkEffect=NULL;
-	  
+
 	  int method;
 	  int nVars = PyTuple_Size(args);
-	  
+
 	  if(!PyArg_ParseTuple(args,"i:",&method))
-	  			 		      {error("HminusStripping(method) - method = 0 or 1 param are needed");}	
-	  
+	  			 		      {error("HminusStripping(method) - method = 0 or 1 param are needed");}
+
 	  else	{
-	 	
+
 	 		 self->cpp_obj =  new  HminusStripping(method);
 	 		 ((HminusStripping*) self->cpp_obj)->setPyWrapper((PyObject*) self);
 	 		 }
-	 		
-	  
- 
+
+
+
     return 0;
   }
-  
-		
-  
-	// name([name]) - sets or returns the name of the External Effeects class 
+
+
+
+	// name([name]) - sets or returns the name of the External Effeects class
   static PyObject* HminusStripping_name(PyObject *self, PyObject *args){
 		HminusStripping* cpp_HminusStripping = (HminusStripping*) ((pyORBIT_Object*) self)->cpp_obj;
     const char* name = NULL;
@@ -75,32 +74,32 @@ extern "C" {
       cpp_HminusStripping->setName(name_str);
 		}
 		return Py_BuildValue("s",cpp_HminusStripping->getName().c_str());
-  }	
-  
-  
+  }
 
-  
-  
-  
-  
-  
 
-  
-  
-  
-  
-  
-  
-  
-  
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   //-----------------------------------------------------
   //destructor for python PyExternalEffects class (__del__ method).
   //-----------------------------------------------------
   static void HminusStripping_del(pyORBIT_Object* self){
 		//std::cerr<<"The HminusStripping __del__ has been called!"<<std::endl;
 		delete ((HminusStripping*)self->cpp_obj);
-		self->ob_type->tp_free((PyObject*)self);
+		Py_TYPE(self)->tp_free((PyObject*)self);
   }
 
 	// defenition of the methods of the python PyExternalEffects wrapper class
@@ -119,8 +118,7 @@ extern "C" {
 
 	//new python PyExternalEffects wrapper type definition
 	static PyTypeObject pyORBIT_HminusStripping_Type = {
-		PyObject_HEAD_INIT(NULL)
-		0, /*ob_size*/
+		PyVarObject_HEAD_INIT(NULL, 0)
 		"HminusStripping", /*tp_name*/
 		sizeof(pyORBIT_Object), /*tp_basicsize*/
 		0, /*tp_itemsize*/
@@ -158,10 +156,10 @@ extern "C" {
 		(initproc) HminusStripping_init, /* tp_init */
 		0, /* tp_alloc */
 		HminusStripping_new, /* tp_new */
-	};	
+	};
 
 
-		
+
 	//--------------------------------------------------
 	//Initialization function of the pyPyExternalEffects class
 	//It will be called from Bunch wrapper initialization
@@ -170,7 +168,7 @@ extern "C" {
 		if (PyType_Ready(&pyORBIT_HminusStripping_Type) < 0) return;
 		Py_INCREF(&pyORBIT_HminusStripping_Type);
 		PyModule_AddObject(module, "HminusStripping", (PyObject *)&pyORBIT_HminusStripping_Type);
-				
+
 	}
 
 #ifdef __cplusplus

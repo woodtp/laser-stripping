@@ -2,8 +2,8 @@
 #define HYDROGENSTARKPARAM_HH_
 
 
-#include "tcomplex.hh"
-#include "CppPyWrapper.hh"
+#include <pyorbit3/utils/tcomplex.hh>
+#include <pyorbit3/utils/CppPyWrapper.hh>
 
 
 

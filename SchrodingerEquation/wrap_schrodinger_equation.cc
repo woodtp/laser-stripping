@@ -1,7 +1,6 @@
-#include "orbit_mpi.hh"
-#include "pyORBIT_Object.hh"
+#include <pyorbit3/mpi/orbit_mpi.hh>
+#include <pyorbit3/main/pyORBIT_Object.hh>
 
-#include "wrap_utils.hh"
 #include "wrap_schrodinger_equation.hh"
 
 #include <iostream>
@@ -39,7 +38,7 @@ extern "C" {
   //initializator for python  PyExternalEffects class
   //this is implementation of the __init__ method
   static int SchrodingerEquation_init(pyORBIT_Object *self, PyObject *args, PyObject *kwds){
-	  
+
 
 
 	  double par_res=0;
@@ -49,21 +48,21 @@ extern "C" {
 
 		 if(!PyArg_ParseTuple(	args,"OOd:",&pyBaseLaserField,&pyStarkEffect,&par_res)){
 			 		          error("SchrodingerEquation(LaserField,StarkEffect,par_res) - params. are needed");
-			 			 		        }  
+			 			 		        }
 		 else	{
 		 BaseLaserFieldSource* lfs = (BaseLaserFieldSource*) ((pyORBIT_Object*) pyBaseLaserField)->cpp_obj;
 		 Stark* StarkEffect = (Stark*) ((pyORBIT_Object*) pyStarkEffect)->cpp_obj;
 		 self->cpp_obj =  new  SchrodingerEquation(lfs, StarkEffect, par_res);
 		 ((SchrodingerEquation*) self->cpp_obj)->setPyWrapper((PyObject*) self);
 		 }
-	
+
 
     return 0;
   }
-  
-		
-  
-	// name([name]) - sets or returns the name of the External Effeects class 
+
+
+
+	// name([name]) - sets or returns the name of the External Effeects class
   static PyObject* SchrodingerEquation_name(PyObject *self, PyObject *args){
 	  SchrodingerEquation* cpp_SchrodingerEquation = (SchrodingerEquation*) ((pyORBIT_Object*) self)->cpp_obj;
     const char* name = NULL;
@@ -75,20 +74,20 @@ extern "C" {
       cpp_SchrodingerEquation->setName(name_str);
 		}
 		return Py_BuildValue("s",cpp_SchrodingerEquation->getName().c_str());
-  }	
-  
-  
-  
-  
-  
-	
+  }
+
+
+
+
+
+
   //-----------------------------------------------------
   //destructor for python PyExternalEffects class (__del__ method).
   //-----------------------------------------------------
   static void SchrodingerEquation_del(pyORBIT_Object* self){
 		//std::cerr<<"The DensityMatrix __del__ has been called!"<<std::endl;
 		delete ((SchrodingerEquation*)self->cpp_obj);
-		self->ob_type->tp_free((PyObject*)self);
+		Py_TYPE(self)->tp_free((PyObject*)self);
   }
 
 	// defenition of the methods of the python PyExternalEffects wrapper class
@@ -108,8 +107,7 @@ extern "C" {
 
 	//new python PyExternalEffects wrapper type definition
 	static PyTypeObject pyORBIT_SchrodingerEquation_Type = {
-		PyObject_HEAD_INIT(NULL)
-		0, /*ob_size*/
+		PyVarObject_HEAD_INIT(NULL, 0)
 		"SchrodingerEquation", /*tp_name*/
 		sizeof(pyORBIT_Object), /*tp_basicsize*/
 		0, /*tp_itemsize*/
@@ -147,10 +145,10 @@ extern "C" {
 		(initproc) SchrodingerEquation_init, /* tp_init */
 		0, /* tp_alloc */
 		SchrodingerEquation_new, /* tp_new */
-	};	
+	};
 
 
-		
+
 	//--------------------------------------------------
 	//Initialization function of the pyPyExternalEffects class
 	//It will be called from Bunch wrapper initialization
@@ -159,7 +157,7 @@ extern "C" {
 		if (PyType_Ready(&pyORBIT_SchrodingerEquation_Type) < 0) return;
 		Py_INCREF(&pyORBIT_SchrodingerEquation_Type);
 		PyModule_AddObject(module, "SchrodingerEquation", (PyObject *)&pyORBIT_SchrodingerEquation_Type);
-				
+
 	}
 
 #ifdef __cplusplus

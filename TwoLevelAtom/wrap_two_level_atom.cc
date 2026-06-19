@@ -1,7 +1,6 @@
-#include "orbit_mpi.hh"
-#include "pyORBIT_Object.hh"
+#include <pyorbit3/mpi/orbit_mpi.hh>
+#include <pyorbit3/main/pyORBIT_Object.hh>
 
-#include "wrap_utils.hh"
 #include "wrap_two_level_atom.hh"
 
 #include <iostream>
@@ -47,7 +46,7 @@ extern "C" {
 
 		 if(!PyArg_ParseTuple(	args,"Odd:",&pyBaseLaserField,&delta_E,&dipole_tr)){
 			 		          error("TwoLevelAtom(LaserField,delta_E,dipole_transition) - params. are needed");
-		 }  
+		 }
 		 else	{
 		   BaseLaserFieldSource* lfs = (BaseLaserFieldSource*) ((pyORBIT_Object*) pyBaseLaserField)->cpp_obj;
 
@@ -57,7 +56,7 @@ extern "C" {
     return 0;
   }
 
-	// name([name]) - sets or returns the name of the External Effeects class 
+	// name([name]) - sets or returns the name of the External Effeects class
   static PyObject* TwoLevelAtom_name(PyObject *self, PyObject *args){
 	  TwoLevelAtom* cpp_TwoLevelAtom = (TwoLevelAtom*) ((pyORBIT_Object*) self)->cpp_obj;
     const char* name = NULL;
@@ -69,15 +68,15 @@ extern "C" {
       cpp_TwoLevelAtom->setName(name_str);
 		}
 		return Py_BuildValue("s",cpp_TwoLevelAtom->getName().c_str());
-  }	
-  
+  }
+
   //-----------------------------------------------------
   //destructor for python PyExternalEffects class (__del__ method).
   //-----------------------------------------------------
   static void TwoLevelAtom_del(pyORBIT_Object* self){
 		//std::cerr<<"The LasStripExternalEffects __del__ has been called!"<<std::endl;
 		delete ((TwoLevelAtom*)self->cpp_obj);
-		self->ob_type->tp_free((PyObject*)self);
+		Py_TYPE(self)->tp_free((PyObject*)self);
   }
 
 	// defenition of the methods of the python PyExternalEffects wrapper class
@@ -96,8 +95,7 @@ extern "C" {
 
 	//new python PyExternalEffects wrapper type definition
 	static PyTypeObject pyORBIT_TwoLevelAtom_Type = {
-		PyObject_HEAD_INIT(NULL)
-		0, /*ob_size*/
+		PyVarObject_HEAD_INIT(NULL, 0)
 		"TwoLevelAtom", /*tp_name*/
 		sizeof(pyORBIT_Object), /*tp_basicsize*/
 		0, /*tp_itemsize*/
@@ -135,10 +133,10 @@ extern "C" {
 		(initproc) TwoLevelAtom_init, /* tp_init */
 		0, /* tp_alloc */
 		TwoLevelAtom_new, /* tp_new */
-	};	
+	};
 
 
-		
+
 	//--------------------------------------------------
 	//Initialization function of the pyPyExternalEffects class
 	//It will be called from Bunch wrapper initialization
@@ -147,7 +145,7 @@ extern "C" {
 		if (PyType_Ready(&pyORBIT_TwoLevelAtom_Type) < 0) return;
 		Py_INCREF(&pyORBIT_TwoLevelAtom_Type);
 		PyModule_AddObject(module, "TwoLevelAtom", (PyObject *)&pyORBIT_TwoLevelAtom_Type);
-				
+
 	}
 
 #ifdef __cplusplus

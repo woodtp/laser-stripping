@@ -24,7 +24,7 @@
 
 #include "Python.h"
 
-#include "BaseFieldSource.hh"
+#include <pyorbit3/utils/BaseFieldSource.hh>
 
 namespace OrbitUtils{
 	

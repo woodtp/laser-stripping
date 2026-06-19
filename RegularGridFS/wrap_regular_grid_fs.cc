@@ -1,7 +1,6 @@
-#include "orbit_mpi.hh"
-#include "pyORBIT_Object.hh"
+#include <pyorbit3/mpi/orbit_mpi.hh>
+#include <pyorbit3/main/pyORBIT_Object.hh>
 
-#include "wrap_utils.hh"
 #include "wrap_regular_grid_fs.hh"
 
 #include <iostream>
@@ -10,7 +9,6 @@
 #include "RegularGridFS.hh"
 
 using namespace OrbitUtils;
-using namespace wrap_orbit_utils;
 
 namespace wrap_regular_grid_fs{
 
@@ -36,43 +34,43 @@ extern "C" {
 
   //initializator for python  CppBaseFieldSource class
   //this is implementation of the __init__ method
-	
-	
+
+
 
   static int RegularGridFS_init(pyORBIT_Object *self, PyObject *args, PyObject *kwds){
-	  
 
-	  
+
+
 	  const char* file_name;
 	  const char* type_of_field;
 	  double field_mult;
 	  double coord_mult;
-	  
+
 
 
 		 if(!PyArg_ParseTuple(	args,"ssdd:",&file_name, &type_of_field, &coord_mult, &field_mult)){
 			 		          error("HydrogenStarkParam(file_name , type_of_field, coodr_mult, field_mult) - params. are needed");
-			 			 		        }  
+			 			 		        }
 		 else	{
-			 
+
 			  std::string name_str_name(file_name);
 			  std::string name_str_field(type_of_field);
 
 		 self->cpp_obj =  new  RegularGridFS(name_str_name, name_str_field, coord_mult, field_mult);
 		 ((RegularGridFS*) self->cpp_obj)->setPyWrapper((PyObject*) self);
 		 }
-	
 
-		
+
+
     return 0;
   }
-  
-  
-  
-  
+
+
+
+
   static PyObject* RegularGridFS_setFieldOrientation(PyObject *self, PyObject *args){
 	  RegularGridFS* RegGrid = (RegularGridFS*)((pyORBIT_Object*) self)->cpp_obj;
- 	 
+
    		double x0;
    		double y0;
    		double z0;
@@ -87,27 +85,27 @@ extern "C" {
 
    		        if(!PyArg_ParseTuple(	args,"ddddddddd:",&x0, &y0, &z0, &kx, &ky, &kz, &mx, &my, &mz))
    		          {error("LaserExternalEfects - setLaserHalfAngle(x0, y0, z0, kx, ky, kz, mx, my, mz) - params. are needed");flag=false;}
-  		        
+
    		        if(fabs(kx*mx+ky*my+kz*mz)/sqrt(kx*kx+ky*ky+kz*kz)/sqrt(mx*mx+my*my+mz*mz)>1.e-15)
    		          {error("Please be shure that kx*mx+ky*my+kz*mz==0");flag=false;}
-		        
-   		        if(flag)	
-   		        	RegGrid->setFieldOrientation(x0,y0, z0, kx, ky, kz, mx, my, mz);
-   		      
-   	   
-   		    Py_INCREF(Py_None);
-   		    return Py_None;	  
-    }	
-  
 
-  
-  
+   		        if(flag)
+   		        	RegGrid->setFieldOrientation(x0,y0, z0, kx, ky, kz, mx, my, mz);
+
+
+   		    Py_INCREF(Py_None);
+   		    return Py_None;
+    }
+
+
+
+
   static PyObject* RegularGridFS_getFields(PyObject *self, PyObject *args){
 	  RegularGridFS* cpp_fields = (RegularGridFS*)((pyORBIT_Object*) self)->cpp_obj;
-  				       
-  		
+
+
        int nVars = PyTuple_Size(args);
-       
+
        double x;
        double y;
        double z;
@@ -118,19 +116,19 @@ extern "C" {
        double Bx;
        double By;
        double Bz;
-       
+
 
            //NO NEW OBJECT CREATED BY PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"dddd:",&x,&y,&z,&t))
              error(" getFields(x,y,z,t) - parameters are needed");
            else
            cpp_fields->getElectricMagneticField(x,y,z,t,Ex,Ey,Ez,Bx,By,Bz);
-           
+
            if (Ex==0.0&&Ey==0.0&&Ez==0.0) return Py_BuildValue("ddd",Bx,By,Bz);
            if (Bx==0.0&&By==0.0&&Bz==0.0) return Py_BuildValue("ddd",Ex,Ey,Ez);
   }
-  
-  
+
+
 
 
   //-----------------------------------------------------
@@ -139,7 +137,7 @@ extern "C" {
   static void RegularGridFS_del(pyORBIT_Object* self){
 		//std::cerr<<"The RegularGridFS __del__ has been called!"<<std::endl;
 		delete ((RegularGridFS*)self->cpp_obj);
-		self->ob_type->tp_free((PyObject*)self);
+		Py_TYPE(self)->tp_free((PyObject*)self);
   }
 
 	// defenition of the methods of the python PyBaseFieldSource wrapper class
@@ -165,8 +163,7 @@ extern "C" {
 
 	//new python PyBaseFieldSource wrapper type definition
 	static PyTypeObject pyORBIT_RegularGridFS_Type = {
-		PyObject_HEAD_INIT(NULL)
-		0, /*ob_size*/
+		PyVarObject_HEAD_INIT(NULL, 0)
 		"RegularGridFS", /*tp_name*/
 		sizeof(pyORBIT_Object), /*tp_basicsize*/
 		0, /*tp_itemsize*/
@@ -204,7 +201,7 @@ extern "C" {
 		(initproc) RegularGridFS_init, /* tp_init */
 		0, /* tp_alloc */
 		RegularGridFS_new, /* tp_new */
-	};	
+	};
 
 	//--------------------------------------------------
 	//Initialization function of the pyPyBaseFieldSource class

@@ -7,8 +7,8 @@
 //    04/21/2003
 //
 // DESCRIPTION
-//    The base class for Python implementation of a field source. 
-//    It should be sub-classed on Python level and implements 
+//    The base class for Python implementation of a field source.
+//    It should be sub-classed on Python level and implements
 //    getElectricField(x,y,z,t) and getMagneticField (x,y,z,t) methods.
 //    The results of these methods will be available from the c++ level.
 //    This is an example of embedding Python in C++ Orbit level.
@@ -16,10 +16,10 @@
 //
 ///////////////////////////////////////////////////////////////////////////
 #include "HermiteGaussianLFmode.hh"
-#include "MathPolynomial.hh"
+#include <pyorbit3/utils/MathPolynomial.hh>
 
-#include "orbit_mpi.hh"
-#include "OrbitConst.hh"
+#include <pyorbit3/mpi/orbit_mpi.hh>
+#include <pyorbit3/orbit/OrbitConst.hh>
 #include <iostream>
 
 
@@ -32,7 +32,7 @@ HermiteGaussianLFmode::HermiteGaussianLFmode(tcomplex C,int n,int m,double w_x,d
 	Cnm=C;
 	Unm=Cnm*sqrt(2*OrbitConst::c*OrbitConst::permeability)*sqrt(pow(w_x,2*n+1)*pow(w_y,2*m+1)*MathPolynomial::Factorial(n)*MathPolynomial::Factorial(m)*pow(2,n+m+1)/(MathPolynomial::Factorial(2*n)*MathPolynomial::Factorial(2*m)*OrbitConst::PI));
 
-	orient = new FieldOrientation();  
+	orient = new FieldOrientation();
 	Laser_lambda=la;
 	env_peak = env__peak;
 	env_sigma = env__sigma;
@@ -43,7 +43,7 @@ HermiteGaussianLFmode::HermiteGaussianLFmode(tcomplex C,int n,int m,double w_x,d
 	n_moda=n;
 	m_moda=m;
 	k=2*OrbitConst::PI/Laser_lambda;
-	
+
 	la_pi_wx = Laser_lambda/(OrbitConst::PI*wx);
 	la_pi_wy = Laser_lambda/(OrbitConst::PI*wy);
 
@@ -52,13 +52,13 @@ HermiteGaussianLFmode::HermiteGaussianLFmode(tcomplex C,int n,int m,double w_x,d
 	nHx=0;nHy=1;nHz=0;
 
 
-	
-	
-	
+
+
+
 }
 
 HermiteGaussianLFmode::~HermiteGaussianLFmode()
-{	
+{
 }
 
 
@@ -72,26 +72,26 @@ HermiteGaussianLFmode::~HermiteGaussianLFmode()
 void HermiteGaussianLFmode::setLaserFieldOrientation(double x0, double y0, double z0,
 													double kx, double ky, double kz,
 													double mx, double my, double mz,
-													double n_Ex, double n_Ey, double n_Ez)	
+													double n_Ex, double n_Ey, double n_Ez)
 {
 	double a=sqrt(n_Ex*n_Ex+n_Ey*n_Ey+n_Ez*n_Ez);
 	orient->setCoefficients(x0, y0, z0,kx, ky, kz, mx, my, mz);
 
-	
-	nEx=n_Ex/a;	
-	nEy=n_Ey/a;	
+
+	nEx=n_Ex/a;
+	nEy=n_Ey/a;
 	nEz=n_Ez/a;	//Vector of polarization of electric field
-	
+
 double	n_Hx=nEz*ky-nEy*kz;
 double	n_Hy=nEx*kz-nEz*kx;
 double	n_Hz=nEy*kx-nEx*ky;
-	
+
 double b=sqrt(n_Hx*n_Hx+n_Hy*n_Hy+n_Hz*n_Hz);
-	
+
 	nHx=n_Hx/b;
 	nHy=n_Hy/b;
 	nHz=n_Hz/b;
-	
+
 
 }
 
@@ -99,17 +99,17 @@ double b=sqrt(n_Hx*n_Hx+n_Hy*n_Hy+n_Hz*n_Hz);
 
 
 void HermiteGaussianLFmode::setLocalParameters(double rx, double ry, double ax, double ay)	{
-	
-    
+
+
 	fx=-4*k*k*ax*rx*rx*rx/(1+4*ax*ax*rx*rx*k*k);
 	fy=-4*k*k*ay*ry*ry*ry/(1+4*ay*ay*ry*ry*k*k);
-        
+
 	wx=2*rx/sqrt(1+4*ax*ax*rx*rx*k*k);
 	wy=2*ry/sqrt(1+4*ay*ay*ry*ry*k*k);
-	
+
 	int n=n_moda;
 	int m=m_moda;
-	
+
 	Unm=Cnm*sqrt(2*OrbitConst::c*OrbitConst::permeability)*sqrt(pow(wx,2*n+1)*pow(wy,2*m+1)*MathPolynomial::Factorial(n)*MathPolynomial::Factorial(m)*pow(2,n+m+1)/(MathPolynomial::Factorial(2*n)*MathPolynomial::Factorial(2*m)*OrbitConst::PI));
 
 
@@ -119,15 +119,15 @@ void HermiteGaussianLFmode::setLocalParameters(double rx, double ry, double ax, 
 
 
 double HermiteGaussianLFmode::HermiteGaussianOmega(double m,double x, double y, double z, double px, double py, double pz, double t){
-	
-	
-	
+
+
+
 	double a=OrbitConst::c/sqrt(m*m+px*px+py*py+pz*pz);
-	
+
 	double vx=px*a;
 	double vy=py*a;
 	double vz=pz*a;
-	
+
 
 
 double ax=k*k*pow(wx,4)+4*pow(fx-z,2);
@@ -151,18 +151,18 @@ double by = 4*y*(fy-z);
 
 
 
-tcomplex HermiteGaussianLFmode::getLaserEMField(double x, double y, double z, double t, 
+tcomplex HermiteGaussianLFmode::getLaserEMField(double x, double y, double z, double t,
 		tcomplex& E_x, tcomplex& E_y, tcomplex& E_z,
 		tcomplex& H_x, tcomplex& H_y, tcomplex& H_z){
-	
+
 	tcomplex exp_phasa;
 
 			orient->OrientCoordinates(x,y,z);
-			
+
 tcomplex	E=Unm*getNonOrientedU(n_moda,m_moda,x,y,z,t);
 
 			exp_phasa = E/abs(E);
-			double absp = abs(exp_phasa); 
+			double absp = abs(exp_phasa);
 			if ((absp != absp)||(fabs(absp-1.)>1.0e-3))
 			exp_phasa = tcomplex(0.,0.);
 
@@ -177,22 +177,22 @@ tcomplex	H=E/OrbitConst::c;
 
 	E_x=E*nEx;	E_y=E*nEy;	E_z=E*nEz;
 	H_x=H*nHx;	H_y=H*nHy;	H_z=H*nHz;
-		
+
 	return exp_phasa;
-	
+
 }
 
 
 bool HermiteGaussianLFmode::region(double x, double y, double z){
-	
+
 	double ax = (z-fx)*la_pi_wx;
 	double ay = (z-fy)*la_pi_wy;
-	
-	
+
+
 	orient->OrientCoordinates(x,y,z);
-	
+
 	return (x*x/(wx*wx+ax*ax) + y*y/(wy*wy+ay*ay) < 25.);
-	
+
 }
 
 
@@ -200,10 +200,10 @@ bool HermiteGaussianLFmode::region(double x, double y, double z){
 
 double HermiteGaussianLFmode::getFrequencyOmega(double m, double x, double y, double z, double px, double py, double pz, double t){
 
-	
+
 	orient->OrientCoordinates(x,y,z);
 	orient->OrientVector2(px,py,pz);
-	
+
 
 	return HermiteGaussianOmega(m,x,y,z,px,py,pz,t);
 
@@ -222,36 +222,36 @@ double HermiteGaussianLFmode::getFrequencyOmega(double m, double x, double y, do
 tcomplex HermiteGaussianLFmode::getNonOrientedU(int n, int m, double x, double y, double z, double t){
 
 	tcomplex U;
-	
+
 	if (n==0&&m==0)	{
-		
+
 		tcomplex a=tcomplex(0.,k*(z-t*OrbitConst::c));
 		tcomplex funx=pow(tcomplex(wx*wx,-(z-fx)*2/k),-1);
 		tcomplex funy=pow(tcomplex(wy*wy,-(z-fy)*2/k),-1);
-		
-		U = sqrt(funx*funy)*exp(-x*x*funx-y*y*funy-a);	
+
+		U = sqrt(funx*funy)*exp(-x*x*funx-y*y*funy-a);
 		if (abs(U) != abs(U)) U = tcomplex(0.,0.);
-		
-		return	U;	
-	
+
+		return	U;
+
 	}	else	{
-	
-	
-	
+
+
+
 	tcomplex funx=sqrt(tcomplex(wx*wx-2.0*J*(z-fx)/k));
 	tcomplex funy=sqrt(tcomplex(wy*wy-2.0*J*(z-fy)/k));
 	tcomplex xf=x/funx;
 	tcomplex yf=y/funy;
-	
+
 	U = pow(funx,-n-1)*pow(funy,-m-1)*exp(-xf*xf-yf*yf-J*k*(z-t*OrbitConst::c))*MathPolynomial::ComplexHermite(n,xf)*MathPolynomial::ComplexHermite(m,yf);
 	if (abs(U) != abs(U)) U = tcomplex(0.,0.);
-	
-	return	U;
-	
-	}
-	
 
-	
+	return	U;
+
+	}
+
+
+
 }
 
 

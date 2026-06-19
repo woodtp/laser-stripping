@@ -3,7 +3,7 @@
 
 #include "Python.h"
 
-#include "ExternalEffects.hh"
+#include <pyorbit3/trackerrk4/ExternalEffects.hh>
 #include "BaseLaserFieldSource.hh"
 #include <string>
 

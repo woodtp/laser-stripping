@@ -1,7 +1,6 @@
-#include "orbit_mpi.hh"
-#include "pyORBIT_Object.hh"
+#include <pyorbit3/mpi/orbit_mpi.hh>
+#include <pyorbit3/main/pyORBIT_Object.hh>
 
-#include "wrap_utils.hh"
 #include "wrap_quad_em_field.hh"
 
 #include <iostream>
@@ -10,7 +9,6 @@
 #include "QuadEMfield.hh"
 
 using namespace OrbitUtils;
-using namespace wrap_orbit_utils;
 
 namespace wrap_quad_em_field{
 
@@ -37,377 +35,377 @@ extern "C" {
   //initializator for python  CppBaseFieldSource class
   //this is implementation of the __init__ method
   static int QuadEMfield_init(pyORBIT_Object *self, PyObject *args, PyObject *kwds){
-	  
+
 	  self->cpp_obj = new QuadEMfield();
-	  
+
 	  ((QuadEMfield*) self->cpp_obj)->setPyWrapper((PyObject*) self);
-	 
+
     return 0;
   }
-  
-  
+
+
   static PyObject* QuadEMfield_x0(PyObject *self, PyObject *args){
- 	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+ 	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
         double x0;
             //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
             if(!PyArg_ParseTuple(	args,"d:",&x0))
               error(" SetupPrint(x0 - parameter is needed");
-            else 	  
+            else
             cpp_QuadEMfield->x0(x0);
-          
+
    		    Py_INCREF(Py_None);
    		    return Py_None;
    }
-   
+
    static PyObject* QuadEMfield_y0(PyObject *self, PyObject *args){
- 	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+ 	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
         double y0;
             //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
             if(!PyArg_ParseTuple(	args,"d:",&y0))
               error(" SetupPrint(y0 - parameter is needed");
-            else 	  
+            else
             cpp_QuadEMfield->y0(y0);
-          
+
    		    Py_INCREF(Py_None);
    		    return Py_None;
    }
-   
+
    static PyObject* QuadEMfield_z0(PyObject *self, PyObject *args){
- 	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+ 	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
         double z0;
             //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
             if(!PyArg_ParseTuple(	args,"d:",&z0))
               error(" SetupPrint(z0 - parameter is needed");
-            else 	  
+            else
             cpp_QuadEMfield->z0(z0);
-          
+
    		    Py_INCREF(Py_None);
    		    return Py_None;
    }
-   
-  
-  
+
+
+
   static PyObject* QuadEMfield_Ex0(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double Ex0;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&Ex0))
              error(" SetupPrint(Ex0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->Ex0(Ex0);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_Ey0(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double Ey0;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&Ey0))
              error(" SetupPrint(Ey0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->Ey0(Ey0);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_Ez0(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double Ez0;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&Ez0))
              error(" SetupPrint(Ez0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->Ez0(Ez0);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_Bx0(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double Bx0;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&Bx0))
              error(" SetupPrint(Bx0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->Bx0(Bx0);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_By0(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double By0;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&By0))
              error(" SetupPrint(By0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->By0(By0);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_Bz0(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double Bz0;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&Bz0))
              error(" SetupPrint(Bz0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->Bz0(Bz0);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_cxEx(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double cxEx;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&cxEx))
              error(" SetupPrint(Bz0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->cxEx(cxEx);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_cyEx(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double cyEx;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&cyEx))
              error(" SetupPrint(Bz0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->cyEx(cyEx);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_czEx(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double czEx;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&czEx))
              error(" SetupPrint(Bz0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->czEx(czEx);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_cxEy(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double cxEy;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&cxEy))
              error(" SetupPrint(Bz0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->cxEy(cxEy);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_cyEy(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double cyEy;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&cyEy))
              error(" SetupPrint(Bz0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->cyEy(cyEy);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_czEy(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double czEy;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&czEy))
              error(" SetupPrint(Bz0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->czEy(czEy);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_cxEz(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double cxEz;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&cxEz))
              error(" SetupPrint(Bz0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->cxEz(cxEz);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_cyEz(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double cyEz;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&cyEz))
              error(" SetupPrint(Bz0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->cyEz(cyEz);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_czEz(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double czEz;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&czEz))
              error(" SetupPrint(Bz0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->czEz(czEz);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_cxBx(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double cxBx;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&cxBx))
              error(" SetupPrint(Bz0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->cxBx(cxBx);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_cyBx(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double cyBx;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&cyBx))
              error(" SetupPrint(Bz0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->cyBx(cyBx);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_czBx(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double czBx;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&czBx))
              error(" SetupPrint(Bz0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->czBx(czBx);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_cxBy(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double cxBy;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&cxBy))
              error(" SetupPrint(Bz0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->cxBy(cxBy);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_cyBy(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double cyBy;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&cyBy))
              error(" SetupPrint(Bz0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->cyBy(cyBy);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_czBy(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double czBy;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&czBy))
              error(" SetupPrint(Bz0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->czBy(czBy);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_cxBz(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double cxBz;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&cxBz))
              error(" SetupPrint(Bz0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->cxBz(cxBz);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_cyBz(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double cyBz;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&cyBz))
              error(" SetupPrint(Bz0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->cyBz(cyBz);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* QuadEMfield_czBz(PyObject *self, PyObject *args){
-	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  QuadEMfield* cpp_QuadEMfield = (QuadEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double czBz;
            //NO NEW OBJECT CREATED By0 PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&czBz))
              error(" SetupPrint(Bz0 - parameter is needed");
-           else 	  
+           else
            cpp_QuadEMfield->czBz(czBz);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
+
 
 
   //-----------------------------------------------------
@@ -416,7 +414,7 @@ extern "C" {
   static void QuadEMfield_del(pyORBIT_Object* self){
 		//std::cerr<<"The LSFieldSource __del__ has been called!"<<std::endl;
 		delete ((QuadEMfield*)self->cpp_obj);
-		self->ob_type->tp_free((PyObject*)self);
+		Py_TYPE(self)->tp_free((PyObject*)self);
   }
 
 	// defenition of the methods of the python PyBaseFieldSource wrapper class
@@ -460,8 +458,7 @@ extern "C" {
 
 	//new python PyBaseFieldSource wrapper type definition
 	static PyTypeObject pyORBIT_QuadEMfield_Type = {
-		PyObject_HEAD_INIT(NULL)
-		0, /*ob_size*/
+		PyVarObject_HEAD_INIT(NULL, 0)
 		"QuadEMfield", /*tp_name*/
 		sizeof(pyORBIT_Object), /*tp_basicsize*/
 		0, /*tp_itemsize*/
@@ -499,7 +496,7 @@ extern "C" {
 		(initproc) QuadEMfield_init, /* tp_init */
 		0, /* tp_alloc */
 		QuadEMfield_new, /* tp_new */
-	};	
+	};
 
 	//--------------------------------------------------
 	//Initialization function of the pyPyBaseFieldSource class

@@ -1,7 +1,6 @@
-#include "orbit_mpi.hh"
-#include "pyORBIT_Object.hh"
+#include <pyorbit3/mpi/orbit_mpi.hh>
+#include <pyorbit3/main/pyORBIT_Object.hh>
 
-#include "wrap_utils.hh"
 #include "wrap_DM_noLaserField.hh"
 
 #include <iostream>
@@ -40,28 +39,28 @@ extern "C" {
   //this is implementation of the __init__ method
   static int DM_noLaserField_init(pyORBIT_Object *self, PyObject *args, PyObject *kwds){
 	  PyObject*	pyStarkEffect=NULL;
-		
+
 	  int nVars = PyTuple_Size(args);
           int method = 0;
-	  
+
 	  if(!PyArg_ParseTuple(	args,"Oi:",&pyStarkEffect, &method))
 		{
 			error("DM_noLaserField(StarkEffect) - param.  needed");
-		}	
-	  
+		}
+
 	  else	{
-			
+
 			Stark* Starkef = (Stark*) ((pyORBIT_Object*) pyStarkEffect)->cpp_obj;
 			self->cpp_obj =  new  DM_noLaserField(Starkef, method);
 			((DM_noLaserField*) self->cpp_obj)->setPyWrapper((PyObject*) self);
 		}
-		
+
     return 0;
   }
-  
-	
-  
-	// name([name]) - sets or returns the name of the External Effeects class 
+
+
+
+	// name([name]) - sets or returns the name of the External Effeects class
   static PyObject* DM_noLaserField_name(PyObject *self, PyObject *args){
 		DM_noLaserField* cpp_DM_noLaserField = (DM_noLaserField*) ((pyORBIT_Object*) self)->cpp_obj;
     const char* name = NULL;
@@ -73,15 +72,15 @@ extern "C" {
       cpp_DM_noLaserField->setName(name_str);
 		}
 		return Py_BuildValue("s",cpp_DM_noLaserField->getName().c_str());
-  }	
-  
+  }
+
   //-----------------------------------------------------
   //destructor for python PyExternalEffects class (__del__ method).
   //-----------------------------------------------------
   static void DM_noLaserField_del(pyORBIT_Object* self){
 		//std::cerr<<"The DM_noLaserField __del__ has been called!"<<std::endl;
 		delete ((DM_noLaserField*)self->cpp_obj);
-		self->ob_type->tp_free((PyObject*)self);
+		Py_TYPE(self)->tp_free((PyObject*)self);
   }
 
 	// defenition of the methods of the python PyExternalEffects wrapper class
@@ -99,8 +98,7 @@ extern "C" {
 
 	//new python PyExternalEffects wrapper type definition
 	static PyTypeObject pyORBIT_DM_noLaserField_Type = {
-		PyObject_HEAD_INIT(NULL)
-		0, /*ob_size*/
+		PyVarObject_HEAD_INIT(NULL, 0)
 		"DM_noLaserField", /*tp_name*/
 		sizeof(pyORBIT_Object), /*tp_basicsize*/
 		0, /*tp_itemsize*/
@@ -138,10 +136,10 @@ extern "C" {
 		(initproc) DM_noLaserField_init, /* tp_init */
 		0, /* tp_alloc */
 		DM_noLaserField_new, /* tp_new */
-	};	
+	};
 
 
-		
+
 	//--------------------------------------------------
 	//Initialization function of the pyPyExternalEffects class
 	//It will be called from Bunch wrapper initialization
@@ -150,7 +148,7 @@ extern "C" {
 		if (PyType_Ready(&pyORBIT_DM_noLaserField_Type) < 0) return;
 		Py_INCREF(&pyORBIT_DM_noLaserField_Type);
 		PyModule_AddObject(module, "DM_noLaserField", (PyObject *)&pyORBIT_DM_noLaserField_Type);
-				
+
 	}
 
 #ifdef __cplusplus

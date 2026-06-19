@@ -1,7 +1,6 @@
-#include "orbit_mpi.hh"
-#include "pyORBIT_Object.hh"
+#include <pyorbit3/mpi/orbit_mpi.hh>
+#include <pyorbit3/main/pyORBIT_Object.hh>
 
-#include "wrap_utils.hh"
 #include "wrap_two_level_strong_field.hh"
 
 #include <iostream>
@@ -48,7 +47,7 @@ extern "C" {
 
 		 if(!PyArg_ParseTuple(	args,"OO:",&pyBaseLaserField,&pyStarkEffect)){
 			 		          error("TwoLevelStrongField(LaserField,StarkEffect) - params. are needed");
-		 }  
+		 }
 		 else	{
 		   BaseLaserFieldSource* lfs = (BaseLaserFieldSource*) ((pyORBIT_Object*) pyBaseLaserField)->cpp_obj;
 		   StarkStrongField* StarkEffect = (StarkStrongField*) ((pyORBIT_Object*) pyStarkEffect)->cpp_obj;
@@ -59,7 +58,7 @@ extern "C" {
     return 0;
   }
 
-	// name([name]) - sets or returns the name of the External Effeects class 
+	// name([name]) - sets or returns the name of the External Effeects class
   static PyObject* TwoLevelStrongField_name(PyObject *self, PyObject *args){
 	  TwoLevelStrongField* cpp_TwoLevelStrongField = (TwoLevelStrongField*) ((pyORBIT_Object*) self)->cpp_obj;
     const char* name = NULL;
@@ -71,15 +70,15 @@ extern "C" {
       cpp_TwoLevelStrongField->setName(name_str);
 		}
 		return Py_BuildValue("s",cpp_TwoLevelStrongField->getName().c_str());
-  }	
-  
+  }
+
   //-----------------------------------------------------
   //destructor for python PyExternalEffects class (__del__ method).
   //-----------------------------------------------------
   static void TwoLevelStrongField_del(pyORBIT_Object* self){
 		//std::cerr<<"The LasStripExternalEffects __del__ has been called!"<<std::endl;
 		delete ((TwoLevelStrongField*)self->cpp_obj);
-		self->ob_type->tp_free((PyObject*)self);
+		Py_TYPE(self)->tp_free((PyObject*)self);
   }
 
 	// defenition of the methods of the python PyExternalEffects wrapper class
@@ -98,8 +97,7 @@ extern "C" {
 
 	//new python PyExternalEffects wrapper type definition
 	static PyTypeObject pyORBIT_TwoLevelStrongField_Type = {
-		PyObject_HEAD_INIT(NULL)
-		0, /*ob_size*/
+		PyVarObject_HEAD_INIT(NULL, 0)
 		"TwoLevelStrongField", /*tp_name*/
 		sizeof(pyORBIT_Object), /*tp_basicsize*/
 		0, /*tp_itemsize*/
@@ -137,10 +135,10 @@ extern "C" {
 		(initproc) TwoLevelStrongField_init, /* tp_init */
 		0, /* tp_alloc */
 		TwoLevelStrongField_new, /* tp_new */
-	};	
+	};
 
 
-		
+
 	//--------------------------------------------------
 	//Initialization function of the pyPyExternalEffects class
 	//It will be called from Bunch wrapper initialization
@@ -149,7 +147,7 @@ extern "C" {
 		if (PyType_Ready(&pyORBIT_TwoLevelStrongField_Type) < 0) return;
 		Py_INCREF(&pyORBIT_TwoLevelStrongField_Type);
 		PyModule_AddObject(module, "TwoLevelStrongField", (PyObject *)&pyORBIT_TwoLevelStrongField_Type);
-				
+
 	}
 
 #ifdef __cplusplus

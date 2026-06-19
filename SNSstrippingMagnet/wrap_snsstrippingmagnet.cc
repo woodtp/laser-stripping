@@ -1,7 +1,6 @@
-#include "orbit_mpi.hh"
-#include "pyORBIT_Object.hh"
+#include <pyorbit3/mpi/orbit_mpi.hh>
+#include <pyorbit3/main/pyORBIT_Object.hh>
 
-#include "wrap_utils.hh"
 #include "wrap_snsstrippingmagnet.hh"
 
 #include <iostream>
@@ -10,7 +9,6 @@
 #include "SNSstrippingMagnet.hh"
 
 using namespace OrbitUtils;
-using namespace wrap_orbit_utils;
 
 namespace wrap_snsstrippingmagnet{
 
@@ -36,34 +34,34 @@ extern "C" {
 
   //initializator for python  CppBaseFieldSource class
   //this is implementation of the __init__ method
-	
-	
+
+
 
   static int SNSstrippingMagnet_init(pyORBIT_Object *self, PyObject *args, PyObject *kwds){
-	  
 
-	  
-	  const char* file_name;	  
+
+
+	  const char* file_name;
 
 
 		 if(!PyArg_ParseTuple(	args,"s:",&file_name)){
 		error("SNSstrippingMagnet(file_name ) - params. are needed");
-			 			 		        }  
+			 			 		        }
 		 else	{
-			 
+
 			  std::string name_str_name(file_name);
 
 
 		 self->cpp_obj =  new  SNSstrippingMagnet(name_str_name);
 		 ((SNSstrippingMagnet*) self->cpp_obj)->setPyWrapper((PyObject*) self);
 		 }
-	
 
-		
+
+
     return 0;
   }
-  
-  
+
+
 
   static PyObject* SNSstrippingMagnet_setA(PyObject *self, PyObject *args){
 	  SNSstrippingMagnet* cpp_field = (SNSstrippingMagnet*)((pyORBIT_Object*) self)->cpp_obj;
@@ -73,15 +71,15 @@ extern "C" {
              error(" setA(z) - parameters are needed");
            else
         	   cpp_field->setA(A);
-           
-  		    Py_INCREF(Py_None);
-  		    return Py_None;	 
-           
-  }  
-  
 
-  
-  
+  		    Py_INCREF(Py_None);
+  		    return Py_None;
+
+  }
+
+
+
+
   static PyObject* SNSstrippingMagnet_setPosition(PyObject *self, PyObject *args){
 	  SNSstrippingMagnet* cpp_field = (SNSstrippingMagnet*)((pyORBIT_Object*) self)->cpp_obj;
 	  double pos;
@@ -91,11 +89,11 @@ extern "C" {
            else
         	   cpp_field->setPosition(pos);
  		    Py_INCREF(Py_None);
- 		    return Py_None;	
-           
-  }   
-    
-  	// name([name]) - sets or returns the name of the External Effeects class 
+ 		    return Py_None;
+
+  }
+
+  	// name([name]) - sets or returns the name of the External Effeects class
   static PyObject* SNSstrippingMagnet_getBx(PyObject *self, PyObject *args){
 
 		SNSstrippingMagnet* cpp_field = (SNSstrippingMagnet*)((pyORBIT_Object*) self)->cpp_obj;
@@ -107,7 +105,7 @@ extern "C" {
 	return Py_BuildValue("d",cpp_field->getBx(z));
   }
 
-  
+
 
 
   //-----------------------------------------------------
@@ -116,7 +114,7 @@ extern "C" {
   static void SNSstrippingMagnet_del(pyORBIT_Object* self){
 		//std::cerr<<"The SNSstrippingMagnet __del__ has been called!"<<std::endl;
 		delete ((SNSstrippingMagnet*)self->cpp_obj);
-		self->ob_type->tp_free((PyObject*)self);
+		Py_TYPE(self)->tp_free((PyObject*)self);
   }
 
 	// defenition of the methods of the python PyBaseFieldSource wrapper class
@@ -140,8 +138,7 @@ extern "C" {
 
 	//new python PyBaseFieldSource wrapper type definition
 	static PyTypeObject pyORBIT_SNSstrippingMagnet_Type = {
-		PyObject_HEAD_INIT(NULL)
-		0, /*ob_size*/
+		PyVarObject_HEAD_INIT(NULL, 0)
 		"SNSstrippingMagnet", /*tp_name*/
 		sizeof(pyORBIT_Object), /*tp_basicsize*/
 		0, /*tp_itemsize*/
@@ -179,7 +176,7 @@ extern "C" {
 		(initproc) SNSstrippingMagnet_init, /* tp_init */
 		0, /* tp_alloc */
 		SNSstrippingMagnet_new, /* tp_new */
-	};	
+	};
 
 	//--------------------------------------------------
 	//Initialization function of the pyPyBaseFieldSource class

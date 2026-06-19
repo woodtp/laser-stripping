@@ -1,7 +1,6 @@
-#include "orbit_mpi.hh"
-#include "pyORBIT_Object.hh"
+#include <pyorbit3/mpi/orbit_mpi.hh>
+#include <pyorbit3/main/pyORBIT_Object.hh>
 
-#include "wrap_utils.hh"
 #include "wrap_density_matrix.hh"
 
 #include <iostream>
@@ -39,32 +38,32 @@ extern "C" {
   //initializator for python  PyExternalEffects class
   //this is implementation of the __init__ method
   static int DensityMatrix_init(pyORBIT_Object *self, PyObject *args, PyObject *kwds){
-	  
 
-	  
+
+
 	  double par_res=0;
 	  PyObject*	pyBaseLaserField=NULL;
 	  PyObject*	pyStarkEffect=NULL;
 
 
-	  
+
 	  if(!PyArg_ParseTuple(	args,"OOd:",&pyBaseLaserField,&pyStarkEffect,&par_res))
-			 		          {error("DensityMatrix(LaserField,StarkEffect,resonanse_parameter) - params. are needed");}	
+			 		          {error("DensityMatrix(LaserField,StarkEffect,resonanse_parameter) - params. are needed");}
 		 else	{
 		 BaseLaserFieldSource* lfs = (BaseLaserFieldSource*) ((pyORBIT_Object*) pyBaseLaserField)->cpp_obj;
 		 Stark* Stark_ef = (Stark*) ((pyORBIT_Object*) pyStarkEffect)->cpp_obj;
 		 self->cpp_obj =  new  DensityMatrix(lfs, Stark_ef, par_res);
 		 ((DensityMatrix*) self->cpp_obj)->setPyWrapper((PyObject*) self);
 		 }
-			 		        	  
-	  		
+
+
 
     return 0;
   }
-  
-		
-  
-	// name([name]) - sets or returns the name of the External Effeects class 
+
+
+
+	// name([name]) - sets or returns the name of the External Effeects class
   static PyObject* DensityMatrix_name(PyObject *self, PyObject *args){
 		DensityMatrix* cpp_DensityMatrix = (DensityMatrix*) ((pyORBIT_Object*) self)->cpp_obj;
     const char* name = NULL;
@@ -76,32 +75,32 @@ extern "C" {
       cpp_DensityMatrix->setName(name_str);
 		}
 		return Py_BuildValue("s",cpp_DensityMatrix->getName().c_str());
-  }	
-  
-  
+  }
 
-  
-  
-  
-  
-  
 
-  
-  
-  
-  
-  
-  
-  
-  
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   //-----------------------------------------------------
   //destructor for python PyExternalEffects class (__del__ method).
   //-----------------------------------------------------
   static void DensityMatrix_del(pyORBIT_Object* self){
 		//std::cerr<<"The DensityMatrix __del__ has been called!"<<std::endl;
 		delete ((DensityMatrix*)self->cpp_obj);
-		self->ob_type->tp_free((PyObject*)self);
+		Py_TYPE(self)->tp_free((PyObject*)self);
   }
 
 	// defenition of the methods of the python PyExternalEffects wrapper class
@@ -120,8 +119,7 @@ extern "C" {
 
 	//new python PyExternalEffects wrapper type definition
 	static PyTypeObject pyORBIT_DensityMatrix_Type = {
-		PyObject_HEAD_INIT(NULL)
-		0, /*ob_size*/
+		PyVarObject_HEAD_INIT(NULL, 0)
 		"DensityMatrix", /*tp_name*/
 		sizeof(pyORBIT_Object), /*tp_basicsize*/
 		0, /*tp_itemsize*/
@@ -159,10 +157,10 @@ extern "C" {
 		(initproc) DensityMatrix_init, /* tp_init */
 		0, /* tp_alloc */
 		DensityMatrix_new, /* tp_new */
-	};	
+	};
 
 
-		
+
 	//--------------------------------------------------
 	//Initialization function of the pyPyExternalEffects class
 	//It will be called from Bunch wrapper initialization
@@ -171,7 +169,7 @@ extern "C" {
 		if (PyType_Ready(&pyORBIT_DensityMatrix_Type) < 0) return;
 		Py_INCREF(&pyORBIT_DensityMatrix_Type);
 		PyModule_AddObject(module, "DensityMatrix", (PyObject *)&pyORBIT_DensityMatrix_Type);
-				
+
 	}
 
 #ifdef __cplusplus

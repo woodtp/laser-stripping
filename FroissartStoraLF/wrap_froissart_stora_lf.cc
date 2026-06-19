@@ -1,7 +1,6 @@
-#include "orbit_mpi.hh"
-#include "pyORBIT_Object.hh"
+#include <pyorbit3/mpi/orbit_mpi.hh>
+#include <pyorbit3/main/pyORBIT_Object.hh>
 
-#include "wrap_utils.hh"
 #include "wrap_froissart_stora_lf.hh"
 
 #include <iostream>
@@ -12,7 +11,6 @@
 #include "FroissartStoraLF.hh"
 
 using namespace OrbitUtils;
-using namespace wrap_orbit_utils;
 
 namespace wrap_froissart_stora_lf{
 
@@ -39,31 +37,31 @@ extern "C" {
   //initializator for python  CppBaseFieldSource class
   //this is implementation of the __init__ method
   static int FroissartStoraLF_init(pyORBIT_Object *self, PyObject *args, PyObject *kwds){
-	  
+
 	  double Omega;
 	  double Gamma;
 	  double Elas;
-	  
+
 		 if(!PyArg_ParseTuple(	args,"ddd:",&Omega,&Gamma,&Elas)){
 			 		          error("FroissartStoraLF(Omega,Gamma,ampl_Elas) - params. are needed");
-		 } 
+		 }
 		 else	{
-			 
+
 		self->cpp_obj = new FroissartStoraLF(Omega,Gamma,Elas);
 		 ((FroissartStoraLF*) self->cpp_obj)->setPyWrapper((PyObject*) self);
 		 }
 
     return 0;
   }
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
   static PyObject* FroissartStoraLF_setLaserFieldPolarization(PyObject *self, PyObject *args){
 	  FroissartStoraLF* LaserField = (FroissartStoraLF*)((pyORBIT_Object*) self)->cpp_obj;
- 	 
+
 
    		double nEx;
    		double nEy;
@@ -72,19 +70,19 @@ extern "C" {
 
    		        if(!PyArg_ParseTuple(	args,"ddd:", &nEx, &nEy, &nEz))
    		          {error("LaserExternalEfects - setLaserFieldPolarization(nEx, nEy, nEz) - params. afe needed");}
-  		        
-   		        else	
+
+   		        else
    		        LaserField->setLaserFieldPolarization(nEx, nEy, nEz);
-   		      
-   	   
+
+
    		    Py_INCREF(Py_None);
-   		    return Py_None;	  
-    }	
-  
-		
-  
-  
-  
+   		    return Py_None;
+    }
+
+
+
+
+
 
   //-----------------------------------------------------
   //destructor for python PyBaseFieldSource class (__del__ method).
@@ -92,7 +90,7 @@ extern "C" {
   static void FroissartStoraLF_del(pyORBIT_Object* self){
 		//std::cerr<<"The CppBaseFieldSource __del__ has been called!"<<std::endl;
 		delete ((FroissartStoraLF*)self->cpp_obj);
-		self->ob_type->tp_free((PyObject*)self);
+		Py_TYPE(self)->tp_free((PyObject*)self);
   }
 
 	// defenition of the methods of the python PyBaseFieldSource wrapper class
@@ -118,8 +116,7 @@ extern "C" {
 
 	//new python PyBaseFieldSource wrapper type definition
 	static PyTypeObject pyORBIT_FroissartStoraLF_Type = {
-		PyObject_HEAD_INIT(NULL)
-		0, /*ob_size*/
+		PyVarObject_HEAD_INIT(NULL, 0)
 		"FroissartStoraLF", /*tp_name*/
 		sizeof(pyORBIT_Object), /*tp_basicsize*/
 		0, /*tp_itemsize*/
@@ -157,7 +154,7 @@ extern "C" {
 		(initproc) FroissartStoraLF_init, /* tp_init */
 		0, /* tp_alloc */
 		FroissartStoraLF_new, /* tp_new */
-	};	
+	};
 
 	//--------------------------------------------------
 	//Initialization function of the pyPyBaseFieldSource class

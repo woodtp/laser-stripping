@@ -15,8 +15,8 @@
 #ifndef BASELASERFIELDSOURCE_HH_
 #define BASELASERFIELDSOURCE_HH_
 
-#include "CppPyWrapper.hh"
-#include "tcomplex.hh"
+#include <pyorbit3/utils/CppPyWrapper.hh>
+#include <pyorbit3/utils/tcomplex.hh>
 
 #define J tcomplex(0.,1.)
 

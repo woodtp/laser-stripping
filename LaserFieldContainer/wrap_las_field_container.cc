@@ -1,7 +1,6 @@
-#include "orbit_mpi.hh"
-#include "pyORBIT_Object.hh"
+#include <pyorbit3/mpi/orbit_mpi.hh>
+#include <pyorbit3/main/pyORBIT_Object.hh>
 
-#include "wrap_utils.hh"
 #include "wrap_las_field_container.hh"
 
 #include <iostream>
@@ -10,7 +9,6 @@
 #include "LaserFieldContainer.hh"
 
 using namespace OrbitUtils;
-using namespace wrap_orbit_utils;
 
 namespace wrap_las_field_container{
 
@@ -40,11 +38,11 @@ extern "C" {
 		self->cpp_obj = new LaserFieldContainer();	//constructor with parameters is nedeed
     return 0;
   }
-  
-  
 
-  
-  
+
+
+
+
 
   //-----------------------------------------------------
   //destructor for python PyBaseFieldSource class (__del__ method).
@@ -52,13 +50,13 @@ extern "C" {
   static void LaserFieldContainer_del(pyORBIT_Object* self){
 		//std::cerr<<"The CppBaseFieldSource __del__ has been called!"<<std::endl;
 		delete ((LaserFieldContainer*)self->cpp_obj);
-		self->ob_type->tp_free((PyObject*)self);
+		Py_TYPE(self)->tp_free((PyObject*)self);
   }
 
 	// defenition of the methods of the python PyBaseFieldSource wrapper class
 	// they will be vailable from python level
   static PyMethodDef LaserFieldContainerClassMethods[] = {
-		
+
     {NULL}
   };
 
@@ -70,8 +68,7 @@ extern "C" {
 
 	//new python PyBaseFieldSource wrapper type definition
 	static PyTypeObject pyORBIT_LaserFieldContainer_Type = {
-		PyObject_HEAD_INIT(NULL)
-		0, /*ob_size*/
+		PyVarObject_HEAD_INIT(NULL, 0)
 		"laserFieldContainer", /*tp_name*/
 		sizeof(pyORBIT_Object), /*tp_basicsize*/
 		0, /*tp_itemsize*/
@@ -109,7 +106,7 @@ extern "C" {
 		(initproc) LaserFieldContainer_init, /* tp_init */
 		0, /* tp_alloc */
 		LaserFieldContainer_new, /* tp_new */
-	};	
+	};
 
 	//--------------------------------------------------
 	//Initialization function of the pyPyBaseFieldSource class

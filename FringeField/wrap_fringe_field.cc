@@ -1,7 +1,6 @@
-#include "orbit_mpi.hh"
-#include "pyORBIT_Object.hh"
+#include <pyorbit3/mpi/orbit_mpi.hh>
+#include <pyorbit3/main/pyORBIT_Object.hh>
 
-#include "wrap_utils.hh"
 #include "wrap_fringe_field.hh"
 
 #include <iostream>
@@ -10,7 +9,6 @@
 #include "FringeField.hh"
 
 using namespace OrbitUtils;
-using namespace wrap_orbit_utils;
 
 namespace wrap_fringe_field{
 
@@ -37,9 +35,9 @@ extern "C" {
   //initializator for python  CppBaseFieldSource class
   //this is implementation of the __init__ method
   static int FringeField_init(pyORBIT_Object *self, PyObject *args, PyObject *kwds){
-	  
 
-	  
+
+
 
 	  double d;
 	  double F;
@@ -47,28 +45,28 @@ extern "C" {
 
 		 if(!PyArg_ParseTuple(	args,"ddi:",&d, &F, &der)){
 			 		          error("FringeField(gap , By_max, derivative of module |By(z)| (plus one or minus one)) - params. are needed");
-			 			 		        }  
+			 			 		        }
 		 else	{
 
 		 self->cpp_obj =  new  FringeField(d, F, der);
 		 ((FringeField*) self->cpp_obj)->setPyWrapper((PyObject*) self);
 		 }
-	
 
-		
+
+
     return 0;
   }
-  
-  
-  
- 
-  
+
+
+
+
+
   static PyObject* FringeField_getField(PyObject *self, PyObject *args){
 	  FringeField* cpp_fields = (FringeField*)((pyORBIT_Object*) self)->cpp_obj;
-  				       
-  		
+
+
        int nVars = PyTuple_Size(args);
-       
+
        double x;
        double y;
        double z;
@@ -79,7 +77,7 @@ extern "C" {
        double Bx;
        double By;
        double Bz;
-       
+
 
            //NO NEW OBJECT CREATED BY PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"dddd:",&x,&y,&z,&t))
@@ -89,8 +87,8 @@ extern "C" {
            return Py_BuildValue("d",Bx);
 
   }
-  
-  
+
+
 
 
   //-----------------------------------------------------
@@ -99,7 +97,7 @@ extern "C" {
   static void FringeField_del(pyORBIT_Object* self){
 		//std::cerr<<"The FringeField __del__ has been called!"<<std::endl;
 		delete ((FringeField*)self->cpp_obj);
-		self->ob_type->tp_free((PyObject*)self);
+		Py_TYPE(self)->tp_free((PyObject*)self);
   }
 
 	// defenition of the methods of the python PyBaseFieldSource wrapper class
@@ -125,8 +123,7 @@ extern "C" {
 
 	//new python PyBaseFieldSource wrapper type definition
 	static PyTypeObject pyORBIT_FringeField_Type = {
-		PyObject_HEAD_INIT(NULL)
-		0, /*ob_size*/
+		PyVarObject_HEAD_INIT(NULL, 0)
 		"FringeField", /*tp_name*/
 		sizeof(pyORBIT_Object), /*tp_basicsize*/
 		0, /*tp_itemsize*/
@@ -164,7 +161,7 @@ extern "C" {
 		(initproc) FringeField_init, /* tp_init */
 		0, /* tp_alloc */
 		FringeField_new, /* tp_new */
-	};	
+	};
 
 	//--------------------------------------------------
 	//Initialization function of the pyPyBaseFieldSource class

@@ -1,7 +1,6 @@
-#include "orbit_mpi.hh"
-#include "pyORBIT_Object.hh"
+#include <pyorbit3/mpi/orbit_mpi.hh>
+#include <pyorbit3/main/pyORBIT_Object.hh>
 
-#include "wrap_utils.hh"
 #include "wrap_const_em_field.hh"
 
 #include <iostream>
@@ -10,7 +9,6 @@
 #include "ConstEMfield.hh"
 
 using namespace OrbitUtils;
-using namespace wrap_orbit_utils;
 
 namespace wrap_const_em_field{
 
@@ -37,111 +35,111 @@ extern "C" {
   //initializator for python  CppBaseFieldSource class
   //this is implementation of the __init__ method
   static int ConstEMfield_init(pyORBIT_Object *self, PyObject *args, PyObject *kwds){
-	  
+
 //	  self->cpp_obj = new LSFieldSource();
-	 
+
 	  double E_x;
 	  double E_y;
 	  double E_z;
 	  double B_x;
 	  double B_y;
 	  double B_z;
-	  
+
 	  int nVars = PyTuple_Size(args);
-	     
+
 
 //	 if (PyArg_ParseTuple(	args,"")) {self->cpp_obj = new LSFieldSource();}
 //	 if(PyArg_ParseTuple(args,"dddddd:",&E_x,&E_y,&E_z,&B_x,&B_y,&B_z))	{ self->cpp_obj = new LSFieldSource(E_x,E_y,E_z,B_x,B_y,B_z);}
-	  
+
 	  if(nVars==0)	 if (!PyArg_ParseTuple(	args,"")) {} else {self->cpp_obj = new ConstEMfield();}
-	  if(nVars==6)	 if (!PyArg_ParseTuple(args,"dddddd:",&E_x,&E_y,&E_z,&B_x,&B_y,&B_z)) 
+	  if(nVars==6)	 if (!PyArg_ParseTuple(args,"dddddd:",&E_x,&E_y,&E_z,&B_x,&B_y,&B_z))
 	  {error("Parameters  (E_x,E_y,E_z,B_x,B_y,B_z) -are needed");} else {self->cpp_obj = new ConstEMfield(E_x,E_y,E_z,B_x,B_y,B_z);}
 
 	     ((ConstEMfield*) self->cpp_obj)->setPyWrapper((PyObject*) self);
-		
+
     return 0;
   }
-  
-  
+
+
   static PyObject* ConstEMfield_Ex(PyObject *self, PyObject *args){
-	  ConstEMfield* cpp_ConstEMfield = (ConstEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  ConstEMfield* cpp_ConstEMfield = (ConstEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double Ex;
            //NO NEW OBJECT CREATED BY PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&Ex))
              error(" SetupPrint(Ex - parameter is needed");
-           else 	  
+           else
            cpp_ConstEMfield->Ex(Ex);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* ConstEMfield_Ey(PyObject *self, PyObject *args){
-	  ConstEMfield* cpp_ConstEMfield = (ConstEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  ConstEMfield* cpp_ConstEMfield = (ConstEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double Ey;
            //NO NEW OBJECT CREATED BY PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&Ey))
              error(" SetupPrint(Ey - parameter is needed");
-           else 	  
+           else
            cpp_ConstEMfield->Ey(Ey);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* ConstEMfield_Ez(PyObject *self, PyObject *args){
-	  ConstEMfield* cpp_ConstEMfield = (ConstEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  ConstEMfield* cpp_ConstEMfield = (ConstEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double Ez;
            //NO NEW OBJECT CREATED BY PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&Ez))
              error(" SetupPrint(Ez - parameter is needed");
-           else 	  
+           else
            cpp_ConstEMfield->Ez(Ez);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* ConstEMfield_Bx(PyObject *self, PyObject *args){
-	  ConstEMfield* cpp_ConstEMfield = (ConstEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  ConstEMfield* cpp_ConstEMfield = (ConstEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double Bx;
            //NO NEW OBJECT CREATED BY PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&Bx))
              error(" SetupPrint(Bx - parameter is needed");
-           else 	  
+           else
            cpp_ConstEMfield->Bx(Bx);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* ConstEMfield_By(PyObject *self, PyObject *args){
-	  ConstEMfield* cpp_ConstEMfield = (ConstEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  ConstEMfield* cpp_ConstEMfield = (ConstEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double By;
            //NO NEW OBJECT CREATED BY PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&By))
              error(" SetupPrint(By - parameter is needed");
-           else 	  
+           else
            cpp_ConstEMfield->By(By);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
+
   static PyObject* ConstEMfield_Bz(PyObject *self, PyObject *args){
-	  ConstEMfield* cpp_ConstEMfield = (ConstEMfield*)((pyORBIT_Object*) self)->cpp_obj;			       
+	  ConstEMfield* cpp_ConstEMfield = (ConstEMfield*)((pyORBIT_Object*) self)->cpp_obj;
        double Bz;
            //NO NEW OBJECT CREATED BY PyArg_ParseTuple! NO NEED OF Py_DECREF()
            if(!PyArg_ParseTuple(	args,"d:",&Bz))
              error(" SetupPrint(Bz - parameter is needed");
-           else 	  
+           else
            cpp_ConstEMfield->Bz(Bz);
-         
+
   		    Py_INCREF(Py_None);
   		    return Py_None;
   }
-  
-  
+
+
 
 
   //-----------------------------------------------------
@@ -150,7 +148,7 @@ extern "C" {
   static void ConstEMfield_del(pyORBIT_Object* self){
 		//std::cerr<<"The ConstEMfield __del__ has been called!"<<std::endl;
 		delete ((ConstEMfield*)self->cpp_obj);
-		self->ob_type->tp_free((PyObject*)self);
+		Py_TYPE(self)->tp_free((PyObject*)self);
   }
 
 	// defenition of the methods of the python PyBaseFieldSource wrapper class
@@ -162,7 +160,7 @@ extern "C" {
 		{ "Bx",        			 ConstEMfield_Bx,        		METH_VARARGS,"Sets parameter Bx of EM field."},
 		{ "By",        			 ConstEMfield_By,        		METH_VARARGS,"Sets parameter By of EM field."},
 		{ "Bz",        			 ConstEMfield_Bz,        		METH_VARARGS,"Sets parameter Bz of EM field."},
-		
+
     {NULL}
   };
 
@@ -174,8 +172,7 @@ extern "C" {
 
 	//new python PyBaseFieldSource wrapper type definition
 	static PyTypeObject pyORBIT_ConstEMfield_Type = {
-		PyObject_HEAD_INIT(NULL)
-		0, /*ob_size*/
+		PyVarObject_HEAD_INIT(NULL, 0)
 		"ConstEMfield", /*tp_name*/
 		sizeof(pyORBIT_Object), /*tp_basicsize*/
 		0, /*tp_itemsize*/
@@ -213,7 +210,7 @@ extern "C" {
 		(initproc) ConstEMfield_init, /* tp_init */
 		0, /* tp_alloc */
 		ConstEMfield_new, /* tp_new */
-	};	
+	};
 
 	//--------------------------------------------------
 	//Initialization function of the pyPyBaseFieldSource class

@@ -5,9 +5,9 @@
 
 #include "Python.h"
 
-#include "ExternalEffects.hh"
+#include <pyorbit3/trackerrk4/ExternalEffects.hh>
 #include "BaseLaserFieldSource.hh"
-#include "ParticleAttributes.hh"
+#include <pyorbit3/orbit/ParticlesAttributes/ParticleAttributes.hh>
 
 
 

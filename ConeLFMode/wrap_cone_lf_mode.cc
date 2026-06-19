@@ -1,7 +1,6 @@
-#include "orbit_mpi.hh"
-#include "pyORBIT_Object.hh"
+#include <pyorbit3/mpi/orbit_mpi.hh>
+#include <pyorbit3/main/pyORBIT_Object.hh>
 
-#include "wrap_utils.hh"
 #include "wrap_cone_lf_mode.hh"
 
 #include <iostream>
@@ -12,7 +11,6 @@
 #include "ConeLFmode.hh"
 
 using namespace OrbitUtils;
-using namespace wrap_orbit_utils;
 
 namespace wrap_cone_lf_mode{
 
@@ -39,32 +37,32 @@ extern "C" {
   //initializator for python  CppBaseFieldSource class
   //this is implementation of the __init__ method
   static int ConeLFmode_init(pyORBIT_Object *self, PyObject *args, PyObject *kwds){
-	  
+
 	  double P=0;
 	  double rx=0;
 	  double ry=0;
 	  double a_x=0;
 	  double a_y=0;
 	  double lambda=0;
-	  
+
 		 if(!PyArg_ParseTuple(	args,"dddddd:",&P,&rx,&ry,&a_x,&a_y,&lambda)){
 			 		          error("LaserExternalEfects(P,rx,ry,ax,ay,lambda) - params. are needed");
 		 } else	{
-			 
+
 		self->cpp_obj = new ConeLFmode(P,rx,ry,a_x,a_y,lambda);
 		((ConeLFmode*) self->cpp_obj)->setPyWrapper((PyObject*) self);
 		 }
 
     return 0;
   }
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
   static PyObject* ConeLFmode_setLaserFieldOrientation(PyObject *self, PyObject *args){
-	  
+
  	 ConeLFmode* LaserField = (ConeLFmode*)((pyORBIT_Object*) self)->cpp_obj;
    		double x0;
    		double y0;
@@ -82,23 +80,23 @@ extern "C" {
 
    		        if(!PyArg_ParseTuple(	args,"dddddddddddd:",&x0, &y0, &z0, &kx, &ky, &kz, &mx, &my, &mz, &nEx, &nEy, &nEz))
    		          {error("LaserExternalEfects - setLaserHalfAngle(comments is not written yet) - param. is needed");flag=false;}
-  		        
+
    		        if(fabs(kx*mx+ky*my+kz*mz)/sqrt(kx*kx+ky*ky+kz*kz)/sqrt(mx*mx+my*my+mz*mz)>1.e-15)
    		          {error("Please be shure that kx*mx+ky*my+kz*mz==0");flag=false;}
    		        if(fabs(kx*nEx+ky*nEy+kz*nEz)/sqrt(kx*kx+ky*ky+kz*kz)/sqrt(nEx*nEx+nEy*nEy+nEz*nEz)>1.e-15)
    		          {error("Please be shure that kx*Ex+ky*Ey+kz*Ez==0");flag=false;}
-	
 
-   		        if(flag)	
+
+   		        if(flag)
    		        	LaserField->setLaserFieldOrientation(x0,y0, z0, kx, ky, kz, mx, my, mz, nEx, nEy, nEz);
-   		      
-   	   
+
+
    		    Py_INCREF(Py_None);
-   		    return Py_None;	  
-    }	
-  
-		
-  
+   		    return Py_None;
+    }
+
+
+
   /*
  	void	LasStripExternalEffects::setLaserHalfAngle(double a);
  	double	LasStripExternalEffects::getLaserHalfAngle();
@@ -107,59 +105,59 @@ extern "C" {
  	void	LasStripExternalEffects::setLaser_lambda(double a);
  	double	LasStripExternalEffects::getLaser_lambda();
 
-   
+
  static PyObject* ConeLFmode_setLaserHalfAngle(PyObject *self, PyObject *args){
 	 ConeLFmode* LaserField = (ConeLFmode*)((pyORBIT_Object*) self)->cpp_obj;
-  		  double half_Angle;	       
+  		  double half_Angle;
   		        if(!PyArg_ParseTuple(	args,"d:",&half_Angle)){
   		          error("LaserExternalEfects - setLaserHalfAngle(half_Angle) - param. is needed");
   		        }
   		        else LaserField->setLaserHalfAngle(half_Angle);
-  		      
-  	   
+
+
   		    Py_INCREF(Py_None);
-  		    return Py_None;	  
-   }		
+  		    return Py_None;
+   }
 
  static PyObject* ConeLFmode_setLaserPower(PyObject *self, PyObject *args){
 	 ConeLFmode* LaserField = (ConeLFmode*)((pyORBIT_Object*) self)->cpp_obj;
- 		  double LaserPower;	       
+ 		  double LaserPower;
  		        if(!PyArg_ParseTuple(	args,"d:",&LaserPower)){
  		          error("LaserExternalEfects - setLaserPower(LaserPower) - param. is needed");
  		        }
  		        else LaserField->setLaserPower(LaserPower);
- 		      
- 	   
+
+
  		    Py_INCREF(Py_None);
- 		    return Py_None;	  
+ 		    return Py_None;
  }
 
  static PyObject* ConeLFmode_setLaser_lambda(PyObject *self, PyObject *args){
 	 ConeLFmode* LaserField = (ConeLFmode*)((pyORBIT_Object*) self)->cpp_obj;
- 		  double Laser_lambda;	       
+ 		  double Laser_lambda;
  		        if(!PyArg_ParseTuple(	args,"d:",&Laser_lambda)){
  		          error("LaserExternalEfects - setLaser_lambda(Laser_lambda) - param. is needed");
  		        }
  		        else LaserField->setLaserPower(Laser_lambda);
- 		      
- 	   
+
+
  		    Py_INCREF(Py_None);
- 		    return Py_None;	  
+ 		    return Py_None;
  }
- 
- 
- 
+
+
+
  static PyObject* ConeLFmode_setLaserFieldOrientation(PyObject *self, PyObject *args){
 	 ConeLFmode* LaserField = (ConeLFmode*)((pyORBIT_Object*) self)->cpp_obj;
- 		  double Laser_lambda;	       
+ 		  double Laser_lambda;
  		        if(!PyArg_ParseTuple(	args,"d:",&Laser_lambda)){
  		          error("LaserExternalEfects - setLaser_lambda(Laser_lambda) - param. is needed");
  		        }
  		        else LaserField->setLaserPower(Laser_lambda);
- 		      
- 	   
+
+
  		    Py_INCREF(Py_None);
- 		    return Py_None;	  
+ 		    return Py_None;
  }
 
 
@@ -167,28 +165,28 @@ extern "C" {
 
  static PyObject* ConeLFmode_getLaserHalfAngle(PyObject *self, PyObject *args){
 	 ConeLFmode* LaserField = (ConeLFmode*)((pyORBIT_Object*) self)->cpp_obj;
- 				       
- 		  return Py_BuildValue("d",LaserField->getLaserHalfAngle()); 
- }		
-     
+
+ 		  return Py_BuildValue("d",LaserField->getLaserHalfAngle());
+ }
+
 
  static PyObject* ConeLFmode_getLaserPower(PyObject *self, PyObject *args){
 	 ConeLFmode* LaserField = (ConeLFmode*)((pyORBIT_Object*) self)->cpp_obj;
- 				       
- 		  return Py_BuildValue("d",LaserField->getLaserPower()); 
- }		    
+
+ 		  return Py_BuildValue("d",LaserField->getLaserPower());
+ }
 
  static PyObject* ConeLFmode_getLaser_lambda(PyObject *self, PyObject *args){
 	 ConeLFmode* LaserField = (ConeLFmode*)((pyORBIT_Object*) self)->cpp_obj;
- 				       
- 		  return Py_BuildValue("d",LaserField->getLaser_omega()); 
- }		    
+
+ 		  return Py_BuildValue("d",LaserField->getLaser_omega());
+ }
 
    */
 
-  
-  
-  
+
+
+
 
   //-----------------------------------------------------
   //destructor for python PyBaseFieldSource class (__del__ method).
@@ -196,7 +194,7 @@ extern "C" {
   static void ConeLFmode_del(pyORBIT_Object* self){
 		//std::cerr<<"The CppBaseFieldSource __del__ has been called!"<<std::endl;
 		delete ((ConeLFmode*)self->cpp_obj);
-		self->ob_type->tp_free((PyObject*)self);
+		Py_TYPE(self)->tp_free((PyObject*)self);
   }
 
 	// defenition of the methods of the python PyBaseFieldSource wrapper class
@@ -222,8 +220,7 @@ extern "C" {
 
 	//new python PyBaseFieldSource wrapper type definition
 	static PyTypeObject pyORBIT_ConeLFmode_Type = {
-		PyObject_HEAD_INIT(NULL)
-		0, /*ob_size*/
+		PyVarObject_HEAD_INIT(NULL, 0)
 		"ConeLFmode", /*tp_name*/
 		sizeof(pyORBIT_Object), /*tp_basicsize*/
 		0, /*tp_itemsize*/
@@ -261,7 +258,7 @@ extern "C" {
 		(initproc) ConeLFmode_init, /* tp_init */
 		0, /* tp_alloc */
 		ConeLFmode_new, /* tp_new */
-	};	
+	};
 
 	//--------------------------------------------------
 	//Initialization function of the pyPyBaseFieldSource class

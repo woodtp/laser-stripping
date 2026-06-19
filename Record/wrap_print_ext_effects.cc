@@ -1,7 +1,6 @@
-#include "orbit_mpi.hh"
-#include "pyORBIT_Object.hh"
+#include <pyorbit3/mpi/orbit_mpi.hh>
+#include <pyorbit3/main/pyORBIT_Object.hh>
 
-#include "wrap_utils.hh"
 
 #include <iostream>
 #include <string>
@@ -44,7 +43,7 @@ extern "C" {
 
 		 if(!PyArg_ParseTuple(	args,"sis:",&eff_name,&max_print,&address)){
 			  error("PrintExtEffects(eff_name,max_print,address) - params. are needed");
-		 }  
+		 }
 		 else	{
 			 std::string name(eff_name);
 			 std::string addr(address);
@@ -53,8 +52,8 @@ extern "C" {
 		 }
     return 0;
   }
-  
-	// name([name]) - sets or returns the name of the External Effeects class 
+
+	// name([name]) - sets or returns the name of the External Effeects class
   static PyObject* PrintExtEffects_name(PyObject *self, PyObject *args){
 	  PrintExtEffects* cpp_PrintExtEffects = (PrintExtEffects*) ((pyORBIT_Object*) self)->cpp_obj;
     const char* name = NULL;
@@ -66,8 +65,8 @@ extern "C" {
       cpp_PrintExtEffects->setName(name_str);
 		}
 		return Py_BuildValue("s",cpp_PrintExtEffects->getName().c_str());
-  }	
-  
+  }
+
 
   //-----------------------------------------------------
   //destructor for python PyExternalEffects class (__del__ method).
@@ -75,7 +74,7 @@ extern "C" {
   static void PrintExtEffects_del(pyORBIT_Object* self){
 		//std::cerr<<"The LasStripExternalEffects __del__ has been called!"<<std::endl;
 		delete ((PrintExtEffects*)self->cpp_obj);
-		self->ob_type->tp_free((PyObject*)self);
+		Py_TYPE(self)->tp_free((PyObject*)self);
   }
 
 	// defenition of the methods of the python PyExternalEffects wrapper class
@@ -93,8 +92,7 @@ extern "C" {
 
 	//new python PyExternalEffects wrapper type definition
 	static PyTypeObject pyORBIT_PrintExtEffects_Type = {
-		PyObject_HEAD_INIT(NULL)
-		0, /*ob_size*/
+		PyVarObject_HEAD_INIT(NULL, 0)
 		"PrintExtEffects", /*tp_name*/
 		sizeof(pyORBIT_Object), /*tp_basicsize*/
 		0, /*tp_itemsize*/
@@ -132,10 +130,10 @@ extern "C" {
 		(initproc) PrintExtEffects_init, /* tp_init */
 		0, /* tp_alloc */
 		PrintExtEffects_new, /* tp_new */
-	};	
+	};
 
 
-		
+
 	//--------------------------------------------------
 	//Initialization function of the pyPyExternalEffects class
 	//It will be called from Bunch wrapper initialization
@@ -144,7 +142,7 @@ extern "C" {
 		if (PyType_Ready(&pyORBIT_PrintExtEffects_Type) < 0) return;
 		Py_INCREF(&pyORBIT_PrintExtEffects_Type);
 		PyModule_AddObject(module, "PrintExtEffects", (PyObject *)&pyORBIT_PrintExtEffects_Type);
-				
+
 	}
 
 #ifdef __cplusplus

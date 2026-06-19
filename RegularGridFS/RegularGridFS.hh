@@ -23,7 +23,7 @@
 #define REGULARGRIDFS_HH_
 
 #include "Python.h"
-#include "BaseFieldSource.hh"
+#include <pyorbit3/utils/BaseFieldSource.hh>
 #include "FieldOrientation.hh"
 #include <vector>
 #include <string>
